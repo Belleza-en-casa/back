@@ -6,21 +6,41 @@ import belleza.com.co.proyecto.belleza.core.enums.Rol;
 import belleza.com.co.proyecto.belleza.persistence.entity.ProfesionalEntity;
 import belleza.com.co.proyecto.belleza.persistence.entity.RolEntity;
 import belleza.com.co.proyecto.belleza.persistence.entity.UsuarioEntity;
+import belleza.com.co.proyecto.belleza.persistence.repository.ProfesionalRepository;
 import belleza.com.co.proyecto.belleza.persistence.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
 
 private  final UsuarioRepository usuarioRepository;
 private  final  RolService rolService;
-    public UsuarioService(UsuarioRepository usuarioRepository, RolService rolService) {
+private  final ProfesionalRepository profesionalRepository;
+    public UsuarioService(UsuarioRepository usuarioRepository, RolService rolService, ProfesionalRepository profesionalRepository) {
         this.usuarioRepository = usuarioRepository;
         this.rolService = rolService;
+        this.profesionalRepository = profesionalRepository;
     }
 
     public  UsuarioEntity crearUsuario(UsuarioDto dto){
         return  this.usuarioRepository.save(parseDto(dto));
+    }
+
+
+    public  UsuarioEntity obtenerUsuario(String correo){
+
+        Optional<UsuarioEntity> user = this.usuarioRepository.findByCorreo(correo);
+        return user.orElse(null);
+    }
+
+    public void actualizarEstadoRegistroProfesional(Integer id, EstadoRegistoProfesional nuevoEstado) {
+        profesionalRepository.updateEstadoRegistroById(id, nuevoEstado);
+    }
+
+    public  void updateImagenUrl(Integer id, String url){
+        usuarioRepository.updateUrlImagenById(id, url);
     }
 
     private UsuarioEntity parseDto(UsuarioDto dto){

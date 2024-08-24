@@ -18,6 +18,8 @@ public class ProyectoBellezaApplication {
 		System.setProperty("DB_PASSWORD", Objects.requireNonNull(dotenv.get("DB_PASSWORD")));
 		System.setProperty("DB_DRIVER", Objects.requireNonNull(dotenv.get("DB_DRIVER")));
 		System.setProperty("API_BASE_PATH", Objects.requireNonNull(dotenv.get("API_BASE_PATH")));
+		System.setProperty("SECRET_KEY", Objects.requireNonNull(dotenv.get("SECRET_KEY")));
+
 
 		SpringApplication.run(ProyectoBellezaApplication.class, args);
 	}

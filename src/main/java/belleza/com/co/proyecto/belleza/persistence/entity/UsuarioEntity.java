@@ -28,6 +28,8 @@ public class UsuarioEntity {
 
     private String apellidos;
 
+    private String urlImagen;
+
     private String identificacion;
 
     private String correo;
