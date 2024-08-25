@@ -9,6 +9,5 @@ public class ImagenPuntoDto {
 
 
     private String url;
-    private  Integer idPunto;
 
 }

@@ -6,6 +6,8 @@ import belleza.com.co.proyecto.belleza.persistence.entity.RolEntity;
 import belleza.com.co.proyecto.belleza.persistence.repository.RolRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RolService {
 
@@ -28,6 +30,10 @@ public  RolEntity obtenerRol(Rol rol){
         RolEntity r = new RolEntity();
         r.setNombre(dto.getNombre());
         return  r;
+    }
+
+    public List<RolEntity> obtenerRoles(){
+        return  this.repository.findAll();
     }
 
 

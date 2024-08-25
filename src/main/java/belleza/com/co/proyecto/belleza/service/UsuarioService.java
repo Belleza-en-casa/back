@@ -3,6 +3,7 @@ package belleza.com.co.proyecto.belleza.service;
 import belleza.com.co.proyecto.belleza.core.dto.UsuarioDto;
 import belleza.com.co.proyecto.belleza.core.enums.EstadoRegistoProfesional;
 import belleza.com.co.proyecto.belleza.core.enums.Rol;
+import belleza.com.co.proyecto.belleza.persistence.entity.AdminEntity;
 import belleza.com.co.proyecto.belleza.persistence.entity.ProfesionalEntity;
 import belleza.com.co.proyecto.belleza.persistence.entity.RolEntity;
 import belleza.com.co.proyecto.belleza.persistence.entity.UsuarioEntity;
@@ -15,21 +16,22 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
 
-private  final UsuarioRepository usuarioRepository;
-private  final  RolService rolService;
-private  final ProfesionalRepository profesionalRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final RolService rolService;
+    private final ProfesionalRepository profesionalRepository;
+
     public UsuarioService(UsuarioRepository usuarioRepository, RolService rolService, ProfesionalRepository profesionalRepository) {
         this.usuarioRepository = usuarioRepository;
         this.rolService = rolService;
         this.profesionalRepository = profesionalRepository;
     }
 
-    public  UsuarioEntity crearUsuario(UsuarioDto dto){
-        return  this.usuarioRepository.save(parseDto(dto));
+    public UsuarioEntity crearUsuario(UsuarioDto dto) {
+        return this.usuarioRepository.save(parseDto(dto));
     }
 
 
-    public  UsuarioEntity obtenerUsuario(String correo){
+    public UsuarioEntity obtenerUsuario(String correo) {
 
         Optional<UsuarioEntity> user = this.usuarioRepository.findByCorreo(correo);
         return user.orElse(null);
@@ -39,16 +41,16 @@ private  final ProfesionalRepository profesionalRepository;
         profesionalRepository.updateEstadoRegistroById(id, nuevoEstado);
     }
 
-    public  void updateImagenUrl(Integer id, String url){
+    public void updateImagenUrl(Integer id, String url) {
         usuarioRepository.updateUrlImagenById(id, url);
     }
 
-    private UsuarioEntity parseDto(UsuarioDto dto){
+    private UsuarioEntity parseDto(UsuarioDto dto) {
 
 
         UsuarioEntity u = new UsuarioEntity();
 
-        if(dto.getRol()== Rol.profesional){
+        if (dto.getRol() == Rol.profesional) {
             ProfesionalEntity p = new ProfesionalEntity();
 
 
@@ -63,21 +65,41 @@ private  final ProfesionalRepository profesionalRepository;
             p.setFechaActualizacion(dto.getFechaActualizacion());
 
             RolEntity r = this.rolService.obtenerRol(dto.getRol());
-            RolEntity re  = new RolEntity();
+            RolEntity re = new RolEntity();
             re.setIdRol(r.getIdRol());
             p.setRol(re);
             p.setUrlDocumentoE(dto.getUrlDocumentoE());
             p.setUrlDocumentoF(dto.getUrlDocumentoF());
             p.setEstadoRegistro(EstadoRegistoProfesional.noIniciada);
 
-            return  p;
+            return p;
 
         }
-        if(dto.getRol()== Rol.cliente){
+        if (dto.getRol() == Rol.cliente) {
 
         }
+        System.out.println(dto.getRol() +"--->");
+        if (dto.getRol() == Rol.admin) {
+            AdminEntity a = new AdminEntity();
 
-        return  u;
+            a.setNombres(dto.getNombres());
+            a.setApellidos(dto.getApellidos());
+            a.setCorreo(dto.getCorreo());
+            a.setFechaNacimiento(dto.getFechaNacimiento());
+            a.setEstado(dto.getEstado());
+            a.setIdentificacion(dto.getIdentificacion());
+
+            a.setFechaCreacion(dto.getFechaCreacion());
+            a.setFechaActualizacion(dto.getFechaActualizacion());
+
+            RolEntity r = this.rolService.obtenerRol(dto.getRol());
+            RolEntity re = new RolEntity();
+            re.setIdRol(r.getIdRol());
+            a.setRol(re);
+            return  a;
+        }
+
+        return u;
 
 
     }

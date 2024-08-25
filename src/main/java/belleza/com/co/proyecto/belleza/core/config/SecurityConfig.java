@@ -46,7 +46,11 @@ public class SecurityConfig  {
                         .authorizeHttpRequests(authRequest -> authRequest
                                 .requestMatchers(HttpMethod.POST, basePath + "/usuario/registro").permitAll()
                                 .requestMatchers(HttpMethod.POST, basePath + "/credencial/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, basePath + "/certificado/login").hasRole("profesional")
+                                .requestMatchers(HttpMethod.POST, basePath + "/profesional/agregar-info-personal").hasRole("profesional")
+                                .requestMatchers(HttpMethod.POST, basePath + "/categoria/agregar").hasRole("admin")
+                                .requestMatchers(HttpMethod.GET, basePath + "/categoria/listar/{estado}").hasAnyRole("admin", "profesional","cliente")
+                                .requestMatchers(HttpMethod.GET, basePath + "/categoria/items/listar/{estado}").hasAnyRole("admin", "profesional","cliente")
+
 
                                 .anyRequest().authenticated())
                 .addFilterBefore((Filter) jwtFilterUtil, UsernamePasswordAuthenticationFilter.class)

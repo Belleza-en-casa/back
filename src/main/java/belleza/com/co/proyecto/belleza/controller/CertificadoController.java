@@ -23,29 +23,10 @@ public class CertificadoController {
     @Value("${api.base.path}")
     private String basePath;
 
-    private final CertificadoService certificadoService;
-    private final UsuarioService usuarioService;
-    private  final PuntoAtencionService puntoAtencionService;
 
-    public CertificadoController(CertificadoService certificadoService, UsuarioService usuarioService, PuntoAtencionService puntoAtencionService) {
-        this.certificadoService = certificadoService;
-        this.usuarioService = usuarioService;
-        this.puntoAtencionService = puntoAtencionService;
+
+    public CertificadoController() {
     }
 
-    @PostMapping("/agregar")
-    public ResponseEntity<ResponseHttp<Boolean>> guardarCertificardo(@RequestBody PersonalInfoDto dtos) {
 
-        try {
-            this.certificadoService.guardarCertificados(dtos.getCertificadoDto());
-            this.usuarioService.actualizarEstadoRegistroProfesional(dtos.getIdProfesional(), EstadoRegistoProfesional.enPersonal);
-            this.usuarioService.updateImagenUrl(dtos.getIdProfesional(), dtos.getImage());
-            this.puntoAtencionService.agregarPuntoAtencion(dtos.getPuntoAtencionDto());
-            return ResponseHttp.successResponse("Certificados añadidos con éxito", true);
-
-        } catch (Exception e) {
-
-            return ResponseHttp.errorResponse("No fue posible agregar el certificado", null);
-        }
-    }
 }
