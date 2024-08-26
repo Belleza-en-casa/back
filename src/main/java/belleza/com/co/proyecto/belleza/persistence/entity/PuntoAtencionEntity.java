@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,9 +31,9 @@ public class PuntoAtencionEntity {
     private ProfesionalEntity profesional;
 
 
-    @OneToMany(mappedBy = "punto", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "punto", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<ImagenPuntoEntity> imagenes;
+    private List<ImagenPuntoEntity> imagenes = new ArrayList<>();
 
 
 }

@@ -50,8 +50,6 @@ public class SecurityConfig  {
                                 .requestMatchers(HttpMethod.POST, basePath + "/categoria/agregar").hasRole("admin")
                                 .requestMatchers(HttpMethod.GET, basePath + "/categoria/listar/{estado}").hasAnyRole("admin", "profesional","cliente")
                                 .requestMatchers(HttpMethod.GET, basePath + "/categoria/items/listar/{estado}").hasAnyRole("admin", "profesional","cliente")
-
-
                                 .anyRequest().authenticated())
                 .addFilterBefore((Filter) jwtFilterUtil, UsernamePasswordAuthenticationFilter.class)
 

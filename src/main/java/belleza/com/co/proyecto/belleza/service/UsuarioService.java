@@ -45,6 +45,10 @@ public class UsuarioService {
         usuarioRepository.updateUrlImagenById(id, url);
     }
 
+    public  ProfesionalEntity obtenerProfesinal(int id){
+        Optional<ProfesionalEntity> p =  this.profesionalRepository.findById(id);
+        return p.orElse(null);
+    }
     private UsuarioEntity parseDto(UsuarioDto dto) {
 
 
@@ -103,5 +107,7 @@ public class UsuarioService {
 
 
     }
+
+
 
 }
